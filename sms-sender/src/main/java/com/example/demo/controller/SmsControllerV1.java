@@ -10,19 +10,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.SmsResponse;
 import com.example.demo.service.SmsService;
 import com.example.demo.model.SmsRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("v1/sms/send")
 public class SmsControllerV1 {
     private final SmsService service;
 
-    @Autowired //used to inject SmsService
+    @Autowired // used to inject SmsService
     public SmsControllerV1(SmsService service) {
         this.service = service;
     }
+
     @PostMapping
-    public ResponseEntity<SmsResponse> sendSmsRequest(@RequestBody SmsRequest request) {
-        String result= service.sendSms(request);
-        return ResponseEntity.ok(new SmsResponse(result));    
+    public ResponseEntity<SmsResponse> sendSmsRequest(@Valid @RequestBody SmsRequest request) {
+        String result = service.sendSms(request);
+        return ResponseEntity.ok(new SmsResponse(result));
     }
 }
